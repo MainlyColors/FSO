@@ -6,9 +6,14 @@ function Content({ contArr }) {
   let contentArr = [];
 
   for (let i = 0; i < contArr.length; i++) {
-    contentArr.push(<p>{contArr[i][0] + ' ' + contArr[i][1]}</p>);
+    const [desc, qty] = contArr[i];
+    contentArr.push(<Part desc={desc} qty={qty}></Part>);
   }
-  return [...contentArr];
+  return <div>{[...contentArr]}</div>;
+}
+
+function Part({ desc, qty }) {
+  return <p>{desc + ' ' + qty}</p>;
 }
 
 function Total({ exerciseArr }) {
