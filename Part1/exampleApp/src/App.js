@@ -12,16 +12,20 @@ function Hello({ name, age }) {
   );
 }
 
-function App() {
-  const name = 'Peter';
-  const age = 10;
-  return (
-    <div>
-      <h1>Greetings</h1>
-      <Hello name="Maya" age={26 + 10} />
-      <Hello name={name} age={age} />
-    </div>
-  );
+// function App() {
+//   const name = 'Peter';
+//   const age = 10;
+//   return (
+//     <div>
+//       <h1>Greetings</h1>
+//       <Hello name="Maya" age={26 + 10} />
+//       <Hello name={name} age={age} />
+//     </div>
+//   );
+// }
+
+function App({ counter }) {
+  return <div>{counter}</div>;
 }
 
 export default App;
