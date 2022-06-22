@@ -1,5 +1,13 @@
 import { useState } from 'react';
 
+function Display({ counter }) {
+  return <div>{counter}</div>;
+}
+
+function Button({ onClick, text }) {
+  return <button onClick={onClick}>{text}</button>;
+}
+
 function App() {
   // needs to be inside your component to work
   const [counter, setCounter] = useState(0);
@@ -11,9 +19,9 @@ function App() {
 
   return (
     <div>
-      <div>{counter}</div>
-      <button onClick={increaseByOne}>plus</button>
-      <button onClick={setToZero}>reset</button>
+      <Display counter={counter} />
+      <Button onClick={increaseByOne} text="plus" />
+      <Button onClick={setToZero} text="reset" />
     </div>
   );
 }
