@@ -12,8 +12,23 @@ const App = () => {
   ];
 
   const [selected, setSelected] = useState(0);
+  const [points, setPoints] = useState(createPointsObject(anecdotes));
+
+  function createPointsObject(dataSet = []) {
+    // create new obj if no set given
+    const obj = {};
+    dataSet.forEach((_, i) => (obj[i] = 0));
+    return obj;
+  }
+
+  function updatePointsObjectState(obj, key, increment = 1) {
+    const objCopy = { ...obj };
+    objCopy[key] = points[key] + 1;
+    setPoints(objCopy);
+  }
 
   function randomIndex(limit) {
+    console.log('random happened');
     // limit not inclusive
     return Math.floor(Math.random() * limit);
   }
@@ -21,6 +36,10 @@ const App = () => {
   return (
     <>
       <p>{anecdotes[selected]}</p>
+      <p>has {points[selected]} votes</p>
+      <button onClick={() => updatePointsObjectState(points, selected)}>
+        vote
+      </button>
       <button onClick={() => setSelected(randomIndex(anecdotes.length))}>
         next anecdote
       </button>
