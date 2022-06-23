@@ -28,7 +28,16 @@ function App() {
     return scores.reduce((total, score) => (total += score), 0);
   }
 
+  function checkFeedback() {
+    if (good !== 0) return true;
+    if (bad !== 0) return true;
+    if (neutral !== 0) return true;
+    return false;
+  }
+
   const allScores = CalculateAllScores(good, neutral, bad);
+
+  if (good !== 0 || bad !== 0 || neutral !== 0) checkFeedback = true;
 
   return (
     <>
@@ -37,12 +46,16 @@ function App() {
       <button onClick={() => setNeutral(neutral + 1)}>neutral</button>
       <button onClick={() => setBad(bad + 1)}>bad</button>
       <h2>statistics</h2>
-      <Statistics
-        good={good}
-        bad={bad}
-        neutral={neutral}
-        allScores={allScores}
-      />
+      {checkFeedback() ? (
+        <Statistics
+          good={good}
+          bad={bad}
+          neutral={neutral}
+          allScores={allScores}
+        />
+      ) : (
+        <p>No Feedback given</p>
+      )}
     </>
   );
 }
