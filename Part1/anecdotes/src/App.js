@@ -13,7 +13,19 @@ const App = () => {
 
   const [selected, setSelected] = useState(0);
 
-  return <div>{anecdotes[selected]}</div>;
+  function randomIndex(limit) {
+    // limit not inclusive
+    return Math.floor(Math.random() * limit);
+  }
+
+  return (
+    <>
+      <p>{anecdotes[selected]}</p>
+      <button onClick={() => setSelected(randomIndex(anecdotes.length))}>
+        next anecdote
+      </button>
+    </>
+  );
 };
 
 export default App;
