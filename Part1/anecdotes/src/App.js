@@ -33,8 +33,16 @@ const App = () => {
     return Math.floor(Math.random() * limit);
   }
 
+  function calcHighestPointsKeyName(obj) {
+    const max = Math.max(...Object.values(obj));
+    for (let key in obj) {
+      if (obj[key] === max) return key;
+    }
+  }
+
   return (
     <>
+      <h2>Anecdote of the day</h2>
       <p>{anecdotes[selected]}</p>
       <p>has {points[selected]} votes</p>
       <button onClick={() => updatePointsObjectState(points, selected)}>
@@ -43,6 +51,9 @@ const App = () => {
       <button onClick={() => setSelected(randomIndex(anecdotes.length))}>
         next anecdote
       </button>
+      <h2>Anecdote with most votes</h2>
+      <p>{anecdotes[calcHighestPointsKeyName(points)]}</p>
+      <p>has {points[calcHighestPointsKeyName(points)]} votes</p>
     </>
   );
 };
