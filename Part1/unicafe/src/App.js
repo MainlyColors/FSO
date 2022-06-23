@@ -2,30 +2,30 @@ import React, { useState } from 'react';
 
 function StatisticLine({ text, value, children }) {
   return (
-    <li>
-      {text}:{value}
-      {children}
-    </li>
+    <tr>
+      <td>{text}:</td>
+      <td>
+        {value}
+        {children}
+      </td>
+    </tr>
   );
 }
 
 function Statistics({ good, bad, neutral, allScores }) {
   return (
-    <ul
-      style={{
-        listStyle: 'none',
-        padding: 0,
-      }}
-    >
-      <StatisticLine text="good" value={good} />
-      <StatisticLine text="neutral" value={neutral} />
-      <StatisticLine text="bad" value={bad} />
-      <StatisticLine text="all" value={allScores} />
-      <StatisticLine text="average" value={(good - bad) / allScores} />
-      <StatisticLine text="positive" value={(good / allScores) * 100}>
-        %
-      </StatisticLine>
-    </ul>
+    <table>
+      <tbody>
+        <StatisticLine text="good" value={good} />
+        <StatisticLine text="neutral" value={neutral} />
+        <StatisticLine text="bad" value={bad} />
+        <StatisticLine text="all" value={allScores} />
+        <StatisticLine text="average" value={(good - bad) / allScores} />
+        <StatisticLine text="positive" value={(good / allScores) * 100}>
+          %
+        </StatisticLine>
+      </tbody>
+    </table>
   );
 }
 
