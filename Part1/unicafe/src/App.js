@@ -1,5 +1,14 @@
 import React, { useState } from 'react';
 
+function StatisticLine({ text, value, children }) {
+  return (
+    <li>
+      {text}:{value}
+      {children}
+    </li>
+  );
+}
+
 function Statistics({ good, bad, neutral, allScores }) {
   return (
     <ul
@@ -8,14 +17,20 @@ function Statistics({ good, bad, neutral, allScores }) {
         padding: 0,
       }}
     >
-      <li>good:{good}</li>
-      <li>neutral:{neutral}</li>
-      <li>bad:{bad}</li>
-      <li>all: {allScores}</li>
-      <li>average: {(good - bad) / allScores || 0}</li>
-      <li>positive: {good / allScores}%</li>
+      <StatisticLine text="good" value={good} />
+      <StatisticLine text="neutral" value={neutral} />
+      <StatisticLine text="bad" value={bad} />
+      <StatisticLine text="all" value={allScores} />
+      <StatisticLine text="average" value={(good - bad) / allScores} />
+      <StatisticLine text="positive" value={(good / allScores) * 100}>
+        %
+      </StatisticLine>
     </ul>
   );
+}
+
+function Button({ onClick, children }) {
+  return <button onClick={onClick}>{children}</button>;
 }
 
 function App() {
@@ -37,14 +52,12 @@ function App() {
 
   const allScores = CalculateAllScores(good, neutral, bad);
 
-  if (good !== 0 || bad !== 0 || neutral !== 0) checkFeedback = true;
-
   return (
     <>
       <h1>give feedback</h1>
-      <button onClick={() => setGood(good + 1)}>good</button>
-      <button onClick={() => setNeutral(neutral + 1)}>neutral</button>
-      <button onClick={() => setBad(bad + 1)}>bad</button>
+      <Button onClick={() => setGood(good + 1)}>good</Button>
+      <Button onClick={() => setNeutral(neutral + 1)}>neutral</Button>
+      <Button onClick={() => setBad(bad + 1)}>bad</Button>
       <h2>statistics</h2>
       {checkFeedback() ? (
         <Statistics
