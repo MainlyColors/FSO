@@ -31,17 +31,13 @@ const App = () => {
     setPersons(persons.concat({ name: newName, number: newNumber }));
   }
 
-  function nameOnChangeHandler(e) {
-    setNewName(e.target.value);
+  function factoryOnChangeHandler(stateChange) {
+    return (e) => stateChange(e.target.value);
   }
 
-  function numberOnChangeHandler(e) {
-    setNewNumber(e.target.value);
-  }
-
-  function filterOnChangeHandler(e) {
-    setNewFilter(e.target.value.toLowerCase());
-  }
+  const nameHandler = factoryOnChangeHandler(setNewName);
+  const numberHandler = factoryOnChangeHandler(setNewNumber);
+  const filterHandler = factoryOnChangeHandler(setNewFilter);
 
   const personsFilterArr =
     newFilter === ''
@@ -57,17 +53,17 @@ const App = () => {
       <div>
         <FormInput
           htmlFor="filter"
-          value={newFilter}
-          onChange={filterOnChangeHandler}
+          value={newFilter.toLowerCase()}
+          onChange={filterHandler}
           labelText="filter shown with"
         />
       </div>
       <h2>add a new</h2>
       <PersonForm
         nameValue={newName}
-        nameOnChange={nameOnChangeHandler}
+        nameOnChange={nameHandler}
         numberValue={newNumber}
-        numberOnChange={numberOnChangeHandler}
+        numberOnChange={numberHandler}
         formOnSubmit={formHandler}
       />
 
