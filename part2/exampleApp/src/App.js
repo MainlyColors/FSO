@@ -5,6 +5,7 @@ import Note from './components/Note';
 function App({ notes: notesArr }) {
   const [notes, setNotes] = useState(notesArr);
   const [newNote, setNewNote] = useState('a new note...');
+  const [showAll, setShowAll] = useState(true);
 
   const addNoteHandler = (e) => {
     e.preventDefault();
@@ -26,11 +27,20 @@ function App({ notes: notesArr }) {
     setNewNote(e.target.value);
   };
 
+  const notesToShow = showAll
+    ? notes
+    : notes.filter((note) => note.important === true);
+
   return (
     <div>
       <h1>Notes</h1>
+      <div>
+        <button onClick={() => setShowAll(!showAll)}>
+          show {showAll ? 'important' : 'all'}
+        </button>
+      </div>
       <ul>
-        {notes.map((note) => (
+        {notesToShow.map((note) => (
           <Note key={note.id} note={note} />
         ))}
       </ul>
