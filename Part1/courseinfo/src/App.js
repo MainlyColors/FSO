@@ -13,11 +13,10 @@ function Part({ desc, qty }) {
   return <li>{desc + ' ' + qty}</li>;
 }
 
-function Total({ exerciseArr }) {
+function Total({ parts }) {
   return (
     <p>
-      Number of exercises{' '}
-      {exerciseArr.reduce((acc, { exercises: n }) => acc + n, 0)}
+      total of {parts.reduce((acc, { exercises: n }) => acc + n, 0)} exercises
     </p>
   );
 }
@@ -54,7 +53,12 @@ const App = () => {
     ],
   };
 
-  return <Course course={course} />;
+  return (
+    <>
+      <Course course={course} />
+      <Total parts={course.parts} />
+    </>
+  );
 };
 
 export default App;
