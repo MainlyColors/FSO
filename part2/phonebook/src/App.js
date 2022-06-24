@@ -1,4 +1,7 @@
 import { useState } from 'react';
+import FormInput from './components/FormInput';
+import PersonForm from './components/PersonForm';
+import PersonsList from './components/PersonsList';
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -29,17 +32,14 @@ const App = () => {
   }
 
   function nameOnChangeHandler(e) {
-    console.log('changing', e.target);
     setNewName(e.target.value);
   }
 
   function numberOnChangeHandler(e) {
-    console.log('changing', e.target);
     setNewNumber(e.target.value);
   }
 
   function filterOnChangeHandler(e) {
-    console.log('changing', e.target);
     setNewFilter(e.target.value.toLowerCase());
   }
 
@@ -55,33 +55,24 @@ const App = () => {
       <h1>Phonebook</h1>
 
       <div>
-        <label htmlFor="filter">filter shown with:</label>
-        <input id="filter" value={newFilter} onChange={filterOnChangeHandler} />
+        <FormInput
+          htmlFor="filter"
+          value={newFilter}
+          onChange={filterOnChangeHandler}
+          labelText="filter shown with"
+        />
       </div>
       <h2>add a new</h2>
-      <form onSubmit={formHandler}>
-        <div>
-          <label htmlFor="name">name:</label>
-          <input id="name" value={newName} onChange={nameOnChangeHandler} />
-        </div>
-        <div>
-          <label htmlFor="number">number:</label>
-          <input
-            id="number"
-            value={newNumber}
-            onChange={numberOnChangeHandler}
-          />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <PersonForm
+        nameValue={newName}
+        nameOnChange={nameOnChangeHandler}
+        numberValue={newNumber}
+        numberOnChange={numberOnChangeHandler}
+        formOnSubmit={formHandler}
+      />
+
       <h2>Numbers</h2>
-      {personsFilterArr.map((person) => (
-        <p key={person.name}>
-          {person.name} {person.number}
-        </p>
-      ))}
+      <PersonsList persons={personsFilterArr} />
     </div>
   );
 };
