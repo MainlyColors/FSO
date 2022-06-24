@@ -1,8 +1,11 @@
 import { useState } from 'react';
 
 const App = () => {
-  const [persons, setPersons] = useState([{ name: 'Arto Hellas' }]);
+  const [persons, setPersons] = useState([
+    { name: 'Arto Hellas', number: '815-637-1258' },
+  ]);
   const [newName, setNewName] = useState('');
+  const [newNumber, setNewNumber] = useState('');
 
   function checkIfNameExistsAlready(newEntry) {
     const arr = persons.filter((person) => person.name === newEntry);
@@ -18,12 +21,17 @@ const App = () => {
       return 'reject';
     }
 
-    setPersons(persons.concat({ name: newName }));
+    setPersons(persons.concat({ name: newName, number: newNumber }));
   }
 
-  function onChangeHandler(e) {
+  function nameOnChangeHandler(e) {
     console.log('changing', e.target);
     setNewName(e.target.value);
+  }
+
+  function numberOnChangeHandler(e) {
+    console.log('changing', e.target);
+    setNewNumber(e.target.value);
   }
 
   return (
@@ -32,7 +40,15 @@ const App = () => {
       <form onSubmit={formHandler}>
         <div>
           <label htmlFor="name">name:</label>
-          <input id="name" value={newName} onChange={onChangeHandler} />
+          <input id="name" value={newName} onChange={nameOnChangeHandler} />
+        </div>
+        <div>
+          <label htmlFor="number">number:</label>
+          <input
+            id="number"
+            value={newNumber}
+            onChange={numberOnChangeHandler}
+          />
         </div>
         <div>
           <button type="submit">add</button>
@@ -40,7 +56,9 @@ const App = () => {
       </form>
       <h2>Numbers</h2>
       {persons.map((person) => (
-        <p key={person.name}>{person.name}</p>
+        <p key={person.name}>
+          {person.name} {person.number}
+        </p>
       ))}
     </div>
   );
