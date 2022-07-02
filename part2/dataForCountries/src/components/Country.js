@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
-export default function Country({ country }) {
-  const [show, setShow] = useState(false);
+export default function Country({ country, show: showState = false }) {
+  const [show, setShow] = useState(showState);
 
   function handleClick() {
     setShow(!show);
