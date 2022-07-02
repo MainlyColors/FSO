@@ -1,0 +1,46 @@
+import { useState } from 'react';
+
+export default function Country({ country }) {
+  const [show, setShow] = useState(false);
+
+  function handleClick() {
+    setShow(!show);
+  }
+
+  if (!show) {
+    return (
+      <p>
+        {country.name}
+        <button style={{ marginLeft: '5px' }} onClick={handleClick}>
+          show
+        </button>
+      </p>
+    );
+  }
+
+  if (show) {
+    return (
+      <>
+        <p>
+          {country.name}
+          <button style={{ marginLeft: '5px' }} onClick={handleClick}>
+            show
+          </button>
+        </p>
+
+        <section>
+          <h2>{country.name}</h2>
+          <p>capital: {country.capital}</p>
+          <p>area: {country.area}</p>
+          <h3>languages</h3>
+          <ul>
+            {country.languages.map(({ name }) => (
+              <li key={name}>{name}</li>
+            ))}
+          </ul>
+          <img src={country.flags.png} alt={`${country.name} flag`} />
+        </section>
+      </>
+    );
+  }
+}
