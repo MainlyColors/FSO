@@ -1,8 +1,9 @@
-import axios from 'axios';
 import { useState, useEffect } from 'react';
 import FormInput from './components/FormInput';
 import PersonForm from './components/PersonForm';
 import PersonsList from './components/PersonsList';
+
+import serverHelper from './services/serverHelper';
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -11,11 +12,8 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('');
 
   useEffect(() => {
-    axios.get('http://localhost:3001/persons').then((res) => {
-      console.log('effect');
-      console.log('data fetched');
-      setPersons(res.data);
-    });
+    console.log('effect');
+    serverHelper.getAll().then((initialNumbers) => setPersons(initialNumbers));
   }, []); // no dependency array === run once on load
   console.log(`total notes:`, persons.length);
 
@@ -33,9 +31,9 @@ const App = () => {
     }
 
     const newPerson = { name: newName, number: newNumber };
-    axios
-      .post('http://localhost:3001/persons', newPerson)
-      .then((res) => setPersons(persons.concat(res.data)));
+    serverHelper
+      .create(newPerson)
+      .then((returnedPerson) => setPersons(persons.concat(returnedPerson)));
 
     setNewName('');
     setNewNumber('');
