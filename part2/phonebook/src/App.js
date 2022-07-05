@@ -27,13 +27,14 @@ const App = () => {
 
   function formHandler(e) {
     e.preventDefault();
-    console.log(e.target);
     if (checkIfNameExistsAlready(newName)) {
       alert(`${newName} is already added to phonebook`);
       return 'reject';
     }
 
     setPersons(persons.concat({ name: newName, number: newNumber }));
+    setNewName('');
+    setNewNumber('');
   }
 
   function factoryOnChangeHandler(stateChange) {
