@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 
 import Note from './components/Note';
+
+import noteServices from './services/notes';
 
 function App() {
   const [notes, setNotes] = useState([]);
@@ -10,9 +11,8 @@ function App() {
 
   useEffect(() => {
     console.log('effect');
-    axios.get('http://localhost:3001/notes').then((res) => {
-      console.log('promise fulfilled');
-      setNotes(res.data);
+    noteServices.getAll().then((initialNotes) => {
+      setNotes(initialNotes);
     });
   }, []);
   console.log('render', notes.length, 'notes');
@@ -28,8 +28,8 @@ function App() {
       // id: notes.length + 1, //better to let server generate IDs
     };
 
-    axios.post('http://localhost:3001/notes', noteObject).then((res) => {
-      setNotes(notes.concat(res.data));
+    noteServices.create(noteObject).then((returnedNote) => {
+      setNotes(notes.concat(returnedNote.data));
       setNewNote('');
     });
   };
@@ -43,8 +43,8 @@ function App() {
     const note = notes.find((n) => n.id === id);
     const changeNote = { ...note, important: !note.important };
 
-    axios.put(url, changeNote).then((res) => {
-      setNotes(notes.map((note) => (note.id !== id ? note : changeNote)));
+    noteServices.update(id, changeNote).then((returnedNote) => {
+      setNotes(notes.map((note) => (note.id !== id ? note : returnedNote)));
     });
 
     console.log('importance of ' + id + ' needs to be toggled');
