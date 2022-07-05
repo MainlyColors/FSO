@@ -39,6 +39,15 @@ const App = () => {
     setNewNumber('');
   }
 
+  function handleDelete(id) {
+    const deletedPerson = persons.find((person) => person.id === id);
+
+    if (window.confirm(`Delete ${deletedPerson.name} ?`)) {
+      serverHelper.deletePerson(id);
+      setPersons(persons.filter((person) => person.id !== deletedPerson.id));
+    }
+  }
+
   function factoryOnChangeHandler(stateChange) {
     return (e) => stateChange(e.target.value);
   }
@@ -76,7 +85,7 @@ const App = () => {
       />
 
       <h2>Numbers</h2>
-      <PersonsList persons={personsFilterArr} />
+      <PersonsList persons={personsFilterArr} onDelete={handleDelete} />
     </div>
   );
 };

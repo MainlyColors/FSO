@@ -1,10 +1,15 @@
-function PersonsList({ persons }) {
+import { Fragment } from 'react';
+
+function PersonsList({ persons, onDelete }) {
   return (
     <>
       {persons.map((person) => (
-        <p key={person.name}>
-          {person.name} {person.number}
-        </p>
+        <Fragment key={person.name}>
+          <p>
+            {person.name} {person.number}
+          </p>
+          <button onClick={() => onDelete(person.id)}>delete</button>
+        </Fragment>
       ))}
     </>
   );
