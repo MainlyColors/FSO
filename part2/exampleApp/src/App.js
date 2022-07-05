@@ -43,9 +43,15 @@ function App() {
     const note = notes.find((n) => n.id === id);
     const changeNote = { ...note, important: !note.important };
 
-    noteServices.update(id, changeNote).then((returnedNote) => {
-      setNotes(notes.map((note) => (note.id !== id ? note : returnedNote)));
-    });
+    noteServices
+      .update(id, changeNote)
+      .then((returnedNote) => {
+        setNotes(notes.map((note) => (note.id !== id ? note : returnedNote)));
+      })
+      .catch((error) => {
+        alert(`the note '${note.content}' was already deleted from server`);
+        setNotes(notes.filter((n) => n.id !== id)); // note not on server so remove from DOM
+      });
 
     console.log('importance of ' + id + ' needs to be toggled');
   };
