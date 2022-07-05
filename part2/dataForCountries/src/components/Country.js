@@ -1,5 +1,7 @@
 import { useState } from 'react';
 
+import TodaysWeather from './TodaysWeather';
+
 export default function Country({ country, show: showState = false }) {
   const [show, setShow] = useState(showState);
 
@@ -39,6 +41,7 @@ export default function Country({ country, show: showState = false }) {
             ))}
           </ul>
           <img src={country.flags.png} alt={`${country.name} flag`} />
+          {showState ? <TodaysWeather country={country} /> : ''}
         </section>
       </>
     );
