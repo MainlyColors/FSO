@@ -26,14 +26,34 @@ const App = () => {
   function formHandler(e) {
     e.preventDefault();
     if (checkIfNameExistsAlready(newName)) {
-      alert(`${newName} is already added to phonebook`);
-      return 'reject';
+      const checkWithUser = window.confirm(
+        `${newName} is already added to phonebook, replace the old number with a new one?`
+      );
+      if (checkWithUser) {
+        const personToUpdate = persons.find(
+          (person) => person.name === newName
+        );
+        serverHelper
+          .updatePerson(
+            { ...personToUpdate, number: newNumber },
+            personToUpdate.id
+          )
+          .then((updatedPerson) =>
+            setPersons(
+              persons.map((person) =>
+                person.id === personToUpdate.id
+                  ? { ...person, number: updatedPerson.number }
+                  : person
+              )
+            )
+          );
+      }
+    } else {
+      const newPerson = { name: newName, number: newNumber };
+      serverHelper
+        .create(newPerson)
+        .then((returnedPerson) => setPersons(persons.concat(returnedPerson)));
     }
-
-    const newPerson = { name: newName, number: newNumber };
-    serverHelper
-      .create(newPerson)
-      .then((returnedPerson) => setPersons(persons.concat(returnedPerson)));
 
     setNewName('');
     setNewNumber('');

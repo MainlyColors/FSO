@@ -12,6 +12,11 @@ function create(newObject) {
   return request.then((res) => res.data);
 }
 
+function updatePerson(newObject, id) {
+  const request = axios.put(`${baseURL}/${id}`, newObject);
+  return request.then((res) => res.data);
+}
+
 function deletePerson(id) {
   const request = axios.delete(`${baseURL}/${id}`);
 
@@ -23,5 +28,6 @@ function deletePerson(id) {
 export default {
   getAll,
   create,
+  updatePerson,
   deletePerson,
 };
