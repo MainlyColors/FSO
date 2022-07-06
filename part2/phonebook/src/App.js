@@ -56,6 +56,13 @@ const App = () => {
             );
 
             notify(`Updated ${updatedPerson.name}'s number`);
+          })
+          .catch((err) => {
+            console.error(`${err} 💣💣💣`);
+            notify(
+              `Information of ${newName} has already been removed from server`
+            );
+            setPersons(persons.filter((p) => p.name !== newName));
           });
       }
     } else {
