@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import FormInput from './components/FormInput';
 import PersonForm from './components/PersonForm';
 import PersonsList from './components/PersonsList';
+import Notification from './components/Notification';
 
 import serverHelper from './services/serverHelper';
 
@@ -10,6 +11,7 @@ const App = () => {
   const [newFilter, setNewFilter] = useState('');
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
+  const [notificationMessage, setNotificationMessage] = useState(null);
 
   useEffect(() => {
     console.log('effect');
@@ -21,6 +23,12 @@ const App = () => {
     const arr = persons.filter((person) => person.name === newEntry);
     if (arr.length !== 0) return true;
     return false;
+  }
+
+  function notify(message) {
+    setNotificationMessage(message);
+
+    setTimeout(() => setNotificationMessage(null), 5000);
   }
 
   function formHandler(e) {
@@ -38,21 +46,24 @@ const App = () => {
             { ...personToUpdate, number: newNumber },
             personToUpdate.id
           )
-          .then((updatedPerson) =>
+          .then((updatedPerson) => {
             setPersons(
               persons.map((person) =>
                 person.id === personToUpdate.id
                   ? { ...person, number: updatedPerson.number }
                   : person
               )
-            )
-          );
+            );
+
+            notify(`Updated ${updatedPerson.name}'s number`);
+          });
       }
     } else {
       const newPerson = { name: newName, number: newNumber };
-      serverHelper
-        .create(newPerson)
-        .then((returnedPerson) => setPersons(persons.concat(returnedPerson)));
+      serverHelper.create(newPerson).then((returnedPerson) => {
+        setPersons(persons.concat(returnedPerson));
+        notify(`Added ${returnedPerson.name}`);
+      });
     }
 
     setNewName('');
@@ -86,7 +97,7 @@ const App = () => {
   return (
     <div>
       <h1>Phonebook</h1>
-
+      <Notification message={notificationMessage} />
       <div>
         <FormInput
           htmlFor="filter"
